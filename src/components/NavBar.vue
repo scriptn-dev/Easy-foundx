@@ -1,16 +1,28 @@
 <template>
-  <v-app-bar dark color="black" app flat id="app-bar">
-    <v-btn class="text-capitalize" dense text><b>Easy Fundxs</b></v-btn>
+  <v-app-bar dark color="black" dense app flat id="app-bar">
+    <v-btn to="/" class="text-capitalize" dense text><b>Easy Fundxs</b></v-btn>
     <v-spacer></v-spacer>
 
-    <div class="hidden-sm-and-down" dense>
-      <v-btn class="text-capitalize" rounded text large>
+    <div class="hidden-sm-and-down" small>
+      <v-btn
+        :to="{ name: 'compaigns' }"
+        class="text-capitalize"
+        rounded
+        text
+        small
+      >
         Explorar
       </v-btn>
-      <v-btn class="text-capitalize" rounded text large>
-        Campanhas
+      <v-btn
+        class="text-capitalize"
+        :to="{ name: 'create-compaign' }"
+        rounded
+        text
+        small
+      >
+        Criar Campanha
       </v-btn>
-      <v-btn class="text-capitalize" rounded text large>
+      <v-btn class="text-capitalize" rounded text small>
         Contato
       </v-btn>
     </div>
@@ -19,10 +31,9 @@
         class="text-capitalize"
         rounded
         depressed
-        dense
+        small
         dark
-        to="/session"
-        color="white"
+        :to="{ name: 'session' }"
       >
         <span>
           Iniciar sessão
