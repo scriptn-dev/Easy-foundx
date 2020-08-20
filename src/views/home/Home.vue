@@ -50,7 +50,7 @@
 // @ is an alias to /src
 // import BannerHome from "@/components/home/BannerHome.vue";
 import Carousel from "@/components/home/CarouselHeader.vue";
-import Card from "@/components/Card.vue";
+import Card from "@/components/CardCompaign.vue";
 import BannerHome from "@/components/home/BannerHome.vue";
 import ListCategories from "@/components/home/ListCategories.vue";
 import HelpCards from "@/components/home/HelpCards.vue";
