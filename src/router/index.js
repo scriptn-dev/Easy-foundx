@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/home/Home.vue";
+import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -11,13 +11,51 @@ const routes = [
     component: Home,
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/criar-campanha",
+    name: "create-compaign",
+    component: () => import("../views/CreateCompaign.vue"),
+  },
+  {
+    path: "/login",
+    name: "session",
+    redirect: { name: "login" },
+
+    component: () => import("../views/Session.vue"),
+    children: [
+      {
+        path: "/",
+        name: "login",
+        component: () => import("../components/user/Login.vue"),
+      },
+      {
+        path: "/cadaste-se",
+        name: "register",
+        component: () => import("../components/user/Register.vue"),
+      },
+      {
+        path: "/recuperar-conta",
+        name: "forgot-pass",
+        component: () => import("../components/user/ForgotPass.vue"),
+      },
+    ],
+  },
+  {
+    path: "/campanhas",
+    name: "compaigns",
+    redirect: { name: "compaigns-list" },
+    component: () => import("../views/Compaigns.vue"),
+    children: [
+      {
+        path: "/",
+        name: "compaigns-list",
+        component: () => import("../components/compaigns/CompaignsList.vue"),
+      },
+      {
+        path: "campanha-detalhes/:id",
+        name: "compaign-details",
+        component: () => import("../components/compaigns/CompaignDetails.vue"),
+      },
+    ],
   },
 ];
 
