@@ -36,7 +36,11 @@
             >
           </div>
           <div>
-            <v-btn block color="#E7AE71" class="font-weight-bold"
+            <v-btn
+              :to="{ name: 'profile' }"
+              block
+              color="#E7AE71"
+              class="font-weight-bold"
               >Acessar
             </v-btn>
           </div>

@@ -16,6 +16,30 @@ const routes = [
     component: () => import("../views/CreateCompaign.vue"),
   },
   {
+    path: "/minha-conta",
+    name: "profile",
+    redirect: { name: "list-compaigns" },
+
+    component: () => import("../views/Profile.vue"),
+    children: [
+      {
+        path: "/",
+        name: "list-compaigns",
+        component: () => import("../components/user/ListCompaigns.vue"),
+      },
+      {
+        path: "/criar-campanha",
+        name: "create-compaign-profile",
+        component: () => import("../components/user/CreateCompaign.vue"),
+      },
+      {
+        path: "/meu-perfil",
+        name: "my-profile",
+        component: () => import("../components/user/AccountDetails.vue"),
+      },
+    ],
+  },
+  {
     path: "/login",
     name: "session",
     redirect: { name: "login" },
