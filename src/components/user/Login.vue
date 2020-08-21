@@ -31,7 +31,9 @@
             ></v-text-field>
           </div>
           <div class="text-right mb-3">
-            <small>Esqueceu a senha?</small>
+            <router-link :to="{ name: 'forgot-pass' }">
+              <small>Esqueceu a senha?</small></router-link
+            >
           </div>
           <div>
             <v-btn block color="#E7AE71" class="font-weight-bold"
@@ -45,7 +47,9 @@
               </small>
             </div>
             <div>
-              <a href="#"><small>Criar uma conta agora</small></a>
+              <router-link :to="{ name: 'register' }"
+                ><small>Criar uma conta agora</small></router-link
+              >
             </div>
           </div>
         </div>
