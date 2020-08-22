@@ -4,17 +4,9 @@
     <v-container>
       <div class="compaigns-intro my-6 col-lg-12 mx-auto">
         <span class="title-component">Campanhas Recentes</span>
-        <v-row justify="space-around">
-          <v-col
-            v-for="n in 8"
-            :key="n"
-            cols="auto"
-            xs="12"
-            sm="4"
-            md="3"
-            lg="3"
-          >
-            <Card />
+        <v-row justify="start">
+          <v-col v-for="(item, key) in campaigns" :key="key" sm="3" cols="12">
+            <Card :campaign="item" />
           </v-col>
         </v-row>
         <div class="text-right">
@@ -55,6 +47,8 @@ import BannerHome from "@/components/home/BannerHome.vue";
 import ListCategories from "@/components/home/ListCategories.vue";
 import HelpCards from "@/components/home/HelpCards.vue";
 import Social from "@/components/home/Social.vue";
+import CategorieService from "@/services/categorie/CategorieService";
+import CampaignService from "@/services/campaign/CampaignService";
 export default {
   name: "Home",
   components: {
@@ -64,6 +58,31 @@ export default {
     ListCategories,
     HelpCards,
     Social,
+  },
+  mounted() {
+    CategorieService.list().then((response) => {
+      this.categories = response.data;
+    });
+
+    CampaignService.listCampaigns()
+      .then((response) => {
+        this.campaigns = response.data;
+      })
+      .catch((error) => {
+        this.messageError = true;
+        console.log(error);
+      });
+  },
+  data() {
+    return {
+      campaigns: [],
+      image: "https://picsum.photos/350/200?img=1",
+      categories: [],
+      categorie_id: null,
+      campaign: {
+        categoria_id: null,
+      },
+    };
   },
 };
 </script>

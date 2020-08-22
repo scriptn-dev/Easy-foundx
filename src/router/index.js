@@ -75,8 +75,10 @@ const routes = [
         component: () => import("../components/compaigns/CompaignsList.vue"),
       },
       {
-        path: "campanha-detalhes/:id",
-        name: "compaign-details",
+        path: "campanha-detalhes/",
+        name: "campaign-details",
+        props: (route) => ({ query: route.query.id }),
+
         component: () => import("../components/compaigns/CompaignDetails.vue"),
       },
     ],

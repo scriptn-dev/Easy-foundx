@@ -8,8 +8,10 @@
     </div>
     <v-card flat class="pa-5">
       <v-row>
-        <v-col>
-          <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png">
+        <v-col cols="12" sm="6">
+          <v-img
+            :src="'https://api.easyfundx.com/images/' + campaign.imagem_capa"
+          >
           </v-img>
           <div class="grey lighten-5 px-5">
             <v-row align="center" justify="start">
@@ -18,18 +20,36 @@
               >
               <v-col cols="auto"
                 ><v-btn small fab color="primary" dark>
-                  <v-icon>mdi-facebook</v-icon>
+                  <ShareNetwork
+                    network="facebook"
+                    :url="'https://easyfundx.com' + this.$route.fullPath"
+                    title="Olá, você poderia compartilhar ou contribuir com um valor para esta campanha?"
+                    description="Nos ajude compartilhando essa campanha"
+                    quote="Olá, você poderia compartilhar ou contribuir com um valor para esta campanha?"
+                    hashtags="easyfundx"
+                  >
+                    <v-icon color="white">mdi-facebook</v-icon>
+                  </ShareNetwork>
                 </v-btn></v-col
               >
 
               <v-col cols="auto"
                 ><v-btn small fab color="success" dark>
-                  <v-icon>mdi-whatsapp</v-icon>
+                  <ShareNetwork
+                    network="whatsapp"
+                    :url="'https://easyfundx.com' + this.$route.fullPath"
+                    title="Olá, você poderia compartilhar ou contribuir com um valor para esta campanha?"
+                    description="Nos ajude compartilhando essa campanha"
+                    quote="Olá, você poderia compartilhar ou contribuir com um valor para esta campanha?"
+                    hashtags="easyfundx"
+                  >
+                    <v-icon color="white">mdi-whatsapp</v-icon>
+                  </ShareNetwork>
                 </v-btn></v-col
               >
               <v-col cols="auto"
-                ><v-btn small fab color="success" dark>
-                  <v-icon>mdi-content-copy</v-icon>
+                ><v-btn @click="copyLink()" small fab color="#E7AE71">
+                  <v-icon color="white">mdi-content-copy</v-icon>
                 </v-btn></v-col
               >
             </v-row>
@@ -42,12 +62,11 @@
         </v-col>
         <v-col sm="6">
           <div class="details-compaign">
-            <span class="title-compaign"
-              >Se você é Fã de Dublagem e amaria conversar com seu dublador
-              favorito, não perca essa ligação!</span
-            >
+            <span class="title-compaign" v-text="campaign.titulo"></span>
             <div class="text-left">
-              <small>27 dias restantes</small>
+              <small
+                v-text="campaign.dias_restantes + ' dias restantes'"
+              ></small>
             </div>
           </div>
           <v-row>
@@ -55,7 +74,7 @@
               <v-alert border="left" color="black" dark>
                 <div><small>Meta</small></div>
                 <div class="pb-5">
-                  <span>R$ 1500,00</span>
+                  <span v-text="convertMoney(campaign.valor)"></span>
                 </div>
               </v-alert>
             </v-col>
@@ -63,7 +82,7 @@
               <v-alert border="left" color="#E7AE71">
                 <div><small>Arrecadados</small></div>
                 <div>
-                  <span>R$ 150,00</span>
+                  <span v-text="campaign.valor_arrecadado">R$ 150,00</span>
                 </div>
                 <v-progress-linear
                   color="black"
@@ -71,7 +90,9 @@
                   rounded
                   value="15"
                 >
-                  <strong>15%</strong></v-progress-linear
+                  <strong v-text="campaign.porcentagem + ' %'"
+                    >%</strong
+                  ></v-progress-linear
                 >
               </v-alert>
             </v-col>
@@ -82,15 +103,7 @@
               <span>Sobre o Projeto</span>
             </div>
             <div class="compaign-description">
-              <span
-                >O mercado da dublagem sofreu e vem sofrendo muito com o momento
-                atual da pandemia, causada pelo COVID-19. Nossos trabalhos foram
-                paralisados, pois é extremamente arriscado trabalhar dentro de
-                um estúdio fechado, sem janelas, onde circulam centenas de
-                pessoas, entre dubladores, técnicos e outros prestadores de
-                serviço. Em um levantamento feito, 72,3% dos dubladores se
-                consideram do grupo de risco ou vivem com alguém que seja.</span
-              >
+              <span v-text="description"></span>
             </div>
           </div>
         </v-col>
@@ -100,7 +113,49 @@
 </template>
 
 <script>
-export default {};
+import CampaignService from "@/services/campaign/CampaignService";
+var sanitizeHtml = require("sanitize-html");
+
+export default {
+  data: () => ({
+    id: "",
+    campaign: [],
+    colaborations: [],
+    description: "",
+    show: false,
+    copyText: "",
+    msgCopy: "",
+  }),
+  mounted() {
+    this.id = this.$route.query.id;
+    this.copyText = "https://easyfundx.com" + this.$route.fullPath;
+    CampaignService.listCampaign(this.id).then((response) => {
+      this.campaign = response.data[0];
+      this.description = sanitizeHtml(response.data[0].descricao, {
+        allowedTags: [],
+      });
+    });
+
+    CampaignService.listColaborations(this.id).then((response) => {
+      this.colaborations = response.data;
+    });
+  },
+  methods: {
+    convertMoney(money) {
+      const toCurrency = (n, curr, LanguageFormat = undefined) =>
+        Intl.NumberFormat(LanguageFormat, {
+          style: "currency",
+          currency: curr,
+        }).format(n);
+      return toCurrency(money, "BRL");
+    },
+    copyLink() {
+      let link = this.copyText;
+      console.log(link);
+      this.$clipboard(link);
+    },
+  },
+};
 </script>
 
 <style>

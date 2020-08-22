@@ -1,16 +1,18 @@
 <template>
-  <v-container class="grey lighten-4" fluid>
-    <v-row>
-      <v-col cols="10" sm="2">
-        <MenuCategories />
-      </v-col>
-      <v-col>
-        <v-container>
-          <router-view></router-view>
-        </v-container>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="grey lighten-4 col-sm-12 col-lg-12 col-xl-8  mx-auto">
+    <v-container fluid>
+      <v-row>
+        <v-col cols="10" sm="2">
+          <MenuCategories />
+        </v-col>
+        <v-col cols="12" sm="10">
+          <v-container>
+            <router-view></router-view>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
