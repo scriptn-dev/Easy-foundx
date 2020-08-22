@@ -15,6 +15,14 @@ export default new Vuex.Store({
     insertCategorie(state, data) {
       state.categorySelected = data;
     },
+    SET_LOGGED_USER(state, { token, id }) {
+      state.token = token;
+      state.id = id;
+    },
+    LOGOUT_USER(state) {
+      state.token = null;
+      state.id = null;
+    },
   },
   actions: {},
   modules: {},
